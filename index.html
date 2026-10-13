@@ -1,85 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stranger Chat - Talk to Strangers | Free Random Video & Text Chat</title>
-<meta name="description" content="Free Omegle alternative. Talk to random strangers via Video Chat and Text Chat in India. 100% Free, No login.">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Stranger Chat - Free Video Chat with Strangers</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
-body{background:#0f0f0f;color:#fff;height:100vh;overflow:hidden}
-.header{background:#1a1a1a;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #333}
-.logo{font-weight:900;font-size:22px;letter-spacing:1px}.logo span{color:#4da6ff}
-.online{font-size:13px;color:#00ff88}
-.main{height:calc(100vh - 50px);position:relative}
-/* WELCOME PAGE */
-#welcome{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;background:radial-gradient(circle at top,#1a2a4a,#0f0f0f)}
-#welcome h1{font-size:38px;font-weight:900;margin-bottom:10px}
-#welcome p{color:#aaa;margin-bottom:25px}
-.modes{display:flex;gap:15px;flex-wrap:wrap;justify-content:center}
-.mode-btn{padding:18px 32px;border-radius:14px;border:2px solid #333;background:#1e1e1e;color:#fff;font-weight:800;font-size:16px;cursor:pointer;min-width:160px;transition:0.2s}
-.mode-btn:hover{transform:scale(1.05)}
-.mode-btn.text{border-color:#555}
-.mode-btn.video{border-color:#4da6ff;background:#1a2a4a;box-shadow:0 0 20px rgba(77,166,255,0.3)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif}
+body{background:#111;color:#fff;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.header{height:50px;background:#222;display:flex;align-items:center;justify-content:space-between;padding:0 15px;border-bottom:1px solid #333}
+.logo{font-weight:900;font-size:20px}.logo b{color:#6cb6ff}
+#welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#111;text-align:center;padding:20px}
+#welcome h1{font-size:36px;margin-bottom:8px}
+#welcome p{color:#888;margin-bottom:30px}
+.btns{display:flex;gap:12px}
+.main-btn{padding:16px 28px;border-radius:10px;border:2px solid #444;background:#222;color:#fff;font-weight:800;font-size:15px;cursor:pointer}
+.main-btn.video{background:#1c3350;border-color:#4da6ff;color:#4da6ff}
 
-/* TEXT CHAT MODE */
-#textChat{ display:none; height:100%; flex-direction:column; background:#0f0f0f; }
-#textChat.status{background:#1a1a1a;padding:10px;text-align:center;color:#00ff88;font-size:14px;font-weight:600}
-#textChat.msgs{flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:8px}
-#textChat.controls{display:flex;gap:8px;padding:12px;background:#1a1a1a;border-top:1px solid #333}
-#textChat.controls input{flex:1;padding:12px 16px;border-radius:24px;border:none;background:#2a2a2a;color:#fff;outline:none;font-size:15px}
+/* TEXT CHAT - SEPARATE */
+#textMode{display:none;flex:1;flex-direction:column;background:#111}
+#textTop{background:#222;padding:10px;text-align:center;color:#0f8;font-size:13px;font-weight:700}
+#textMsgs{flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:8px}
+#textBottom{display:flex;gap:6px;padding:10px;background:#222;border-top:1px solid #333}
+#textBottom input{flex:1;padding:12px 15px;border-radius:20px;border:none;background:#333;color:#fff;outline:none}
 
-/* VIDEO CHAT MODE */
-#videoChat{ display:none; height:100%; position:relative; background:#000; }
+/* VIDEO CHAT - SEPARATE FULL SCREEN */
+#videoMode{display:none;flex:1;position:relative;background:#000;flex-direction:column}
 #remoteVideo{width:100%;height:100%;object-fit:cover;background:#000}
-#localVideo{position:absolute;bottom:85px;right:15px;width:150px;height:112px;border-radius:12px;border:2px solid #fff;object-fit:cover;background:#111;z-index:10;box-shadow:0 4px 15px rgba(0,0,0,0.5)}
-#videoMsgs{position:absolute;top:0;left:0;right:0;bottom:80px;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:6px;pointer-events:none}
-#videoMsgs.msg{pointer-events:auto}
-.v-bottom{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.9));padding:10px;display:flex;flex-direction:column;gap:8px;z-index:20}
-.v-row{display:flex;gap:8px;justify-content:center}
-.v-btn{padding:11px 20px;border-radius:24px;border:none;font-weight:800;cursor:pointer;font-size:14px}
-.v-btn.mute{background:#2a2a2a;color:#fff}.v-btn.cam{background:#2a2a2a;color:#fff}.v-btn.next{background:#ff3b30;color:#fff;min-width:90px}.v-btn.stop{background:#3a3a3a;color:#fff}
-.v-input-row{display:flex;gap:8px}
-.v-input-row input{flex:1;padding:11px 16px;border-radius:24px;border:none;background:rgba(42,42,42,0.9);color:#fff;outline:none}
+#localVideo{position:absolute;right:12px;bottom:130px;width:120px;height:90px;border-radius:10px;border:2px solid #fff;object-fit:cover;background:#222;z-index:5}
+#vChatOverlay{position:absolute;left:0;right:0;top:0;bottom:120px;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:6px;pointer-events:none}
+#vBottomBar{position:absolute;bottom:0;left:0;right:0;background:#111;border-top:1px solid #333;padding:8px;z-index:10}
+#vMsgRow{display:flex;gap:6px;margin-bottom:8px}
+#vMsgRow input{flex:1;padding:10px 14px;border-radius:20px;border:none;background:#2a2a2a;color:#fff;outline:none}
+#vBtnRow{display:flex;gap:8px;justify-content:center}
+.vbtn{padding:10px 18px;border-radius:20px;border:none;font-weight:800;cursor:pointer;font-size:13px;min-width:65px}
+.vbtn-mute{background:#333;color:#fff}.vbtn-cam{background:#333;color:#fff}.vbtn-next{background:#ff3b30;color:#fff;min-width:80px}.vbtn-stop{background:#444;color:#fff}
 
-/* COMMON MSG */
-.msg{padding:9px 14px;border-radius:18px;max-width:78%;font-size:14px;line-height:1.4;word-break:break-word}
-.me{background:#0084ff;align-self:flex-end;color:#fff}
-.them{background:#2a2a2a;align-self:flex-start;color:#fff}
-.system{align-self:center;background:#222;color:#888;font-size:12px;border-radius:10px}
-.btn{padding:11px 18px;border-radius:24px;border:none;font-weight:700;cursor:pointer}
-.btn-next{background:#ff3b30;color:#fff}.btn-stop{background:#333;color:#fff}.btn-send{background:#0084ff;color:#fff}
+.msg{padding:8px 12px;border-radius:16px;max-width:75%;font-size:13px}
+.me{background:#0084ff;align-self:flex-end}.them{background:#2e2e2e;align-self:flex-start}.sys{align-self:center;background:#222;color:#777;font-size:11px}
+.sbtn{padding:10px 16px;border-radius:20px;border:none;font-weight:700;cursor:pointer;font-size:13px}
+.sbtn-stop{background:#333;color:#fff}.sbtn-next{background:#ff3b30;color:#fff}.sbtn-send{background:#0084ff;color:#fff}
 </style>
 </head>
 <body>
-<div class="header"><div class="logo">STRANGER<span>CHAT</span></div><div class="online">● <span id="onlineCount">1,247</span> Online</div></div>
+<div class="header"><div class="logo">STRANGER<b>CHAT</b></div><div style="color:#0f8;font-size:12px">● LIVE</div></div>
 
-<div class="main">
-<!-- WELCOME -->
 <div id="welcome">
 <h1>Talk to Strangers!</h1>
-<p>Free Omegle Alternative - No Login Needed</p>
-<div class="modes">
-<button class="mode-btn text" onclick="startMode('text')">💬 Text Chat</button>
-<button class="mode-btn video" onclick="startMode('video')">🎥 Video Chat</button>
+<p>Omegle Alternative - 100% Free</p>
+<div class="btns">
+<button class="main-btn" onclick="openMode('text')">💬 Text Chat</button>
+<button class="main-btn video" onclick="openMode('video')">🎥 Video Chat</button>
 </div>
-<p style="margin-top:25px;font-size:11px;color:#555">By starting, you agree to Terms. 18+ only.</p>
-</div>
-
-<!-- TEXT MODE ONLY -->
-<div id="textChat">
-<div class="status" id="textStatus">Connecting...</div>
-<div class="msgs" id="textMsgs"></div>
-<div class="controls"><button class="btn btn-stop" onclick="location.reload()">Stop</button><button class="btn btn-next" onclick="nextStranger()">Next</button><input id="textInput" placeholder="Type a message..."><button class="btn btn-send" onclick="sendMsg()">Send</button></div>
 </div>
 
-<!-- VIDEO MODE ONLY -->
-<div id="videoChat">
+<!-- TEXT ONLY -->
+<div id="textMode">
+<div id="textTop">Connecting...</div>
+<div id="textMsgs"></div>
+<div id="textBottom">
+<button class="sbtn sbtn-stop" onclick="location.reload()">Stop</button>
+<button class="sbtn sbtn-next" onclick="doNext()">Next</button>
+<input id="tInput" placeholder="Type a message...">
+<button class="sbtn sbtn-send" onclick="send()">Send</button>
+</div>
+</div>
+
+<!-- VIDEO ONLY -->
+<div id="videoMode">
 <video id="remoteVideo" autoplay playsinline></video>
 <video id="localVideo" autoplay playsinline muted></video>
-<div id="videoMsgs"></div>
-<div class="v-bottom">
-<div class="v-input-row"><input id="videoInput" placeholder="Type a message..."><button class="btn btn-send" onclick="sendMsg()">Send</button></div>
-<div class="v-row"><button class="v-btn mute" id="muteBtn" onclick="toggleMute()">Mute</button><button class="v-btn cam" id="camBtn" onclick="toggleCam()">Cam Off</button><button class="v-btn next" onclick="nextStranger()">Next</button><button class="v-btn stop" onclick="location.reload()">Stop</button></div>
+<div id="vChatOverlay"></div>
+<div id="vBottomBar">
+<div id="vMsgRow"><input id="vInput" placeholder="Type a message..."><button class="sbtn sbtn-send" onclick="send()">Send</button></div>
+<div id="vBtnRow">
+<button class="vbtn vbtn-mute" id="bMute" onclick="doMute()">Mute</button>
+<button class="vbtn vbtn-cam" id="bCam" onclick="doCam()">Cam Off</button>
+<button class="vbtn vbtn-next" onclick="doNext()">Next</button>
+<button class="vbtn vbtn-stop" onclick="location.reload()">Stop</button>
 </div>
 </div>
 </div>
@@ -87,99 +83,65 @@ body{background:#0f0f0f;color:#fff;height:100vh;overflow:hidden}
 <script src="/socket.io/socket.io.js"></script>
 <script>
 const socket=io();
-let mode=null, localStream=null, peer=null, isMuted=false, isCamOff=false;
-const welcome=document.getElementById('welcome'), textChat=document.getElementById('textChat'), videoChat=document.getElementById('videoChat');
+let mode=null, localStream=null, peer=null, muted=false, camOff=false;
 const remoteVideo=document.getElementById('remoteVideo'), localVideo=document.getElementById('localVideo');
-const textMsgs=document.getElementById('textMsgs'), videoMsgs=document.getElementById('videoMsgs');
-const textStatus=document.getElementById('textStatus');
 
-function startMode(m){
+function openMode(m){
  mode=m;
- welcome.style.display='none';
- if(m==='text'){
-  textChat.style.display='flex';
-  videoChat.style.display='none';
- } else {
-  textChat.style.display='none';
-  videoChat.style.display='flex';
-  startCamera();
- }
- findStranger();
-}
-async function startCamera(){
- try{
-  localStream=await navigator.mediaDevices.getUserMedia({video:{width:640,height:480},audio:true});
-  localVideo.srcObject=localStream;
- }catch(e){
-  alert('Camera/Mic Allow करो! Chrome में खोलो और Allow दबाओ।');
-  location.reload();
- }
-}
-function findStranger(){
- if(mode==='text'){textMsgs.innerHTML='';textStatus.textContent='Searching for a stranger...';}
- else{videoMsgs.innerHTML='';}
+ document.getElementById('welcome').style.display='none';
+ if(m==='text'){document.getElementById('textMode').style.display='flex';}
+ else{document.getElementById('videoMode').style.display='flex'; startCam();}
  socket.emit('find-stranger',{mode});
+ updateStatus('Searching...');
 }
-function nextStranger(){
- if(peer){peer.close();peer=null;}
- if(remoteVideo) remoteVideo.srcObject=null;
- socket.emit('next-stranger',{mode});
- findStranger();
+async function startCam(){
+ try{
+  localStream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});
+  localVideo.srcObject=localStream;
+ }catch(e){alert('Camera Allow करो! Chrome में खोलो'); location.reload();}
 }
-function getActiveBox(){return mode==='text'?textMsgs:videoMsgs;}
-function addMsg(text, who){
- const box=getActiveBox();
- const d=document.createElement('div');
- d.className='msg '+who; d.textContent=text;
- box.appendChild(d); box.scrollTop=box.scrollHeight;
+function updateStatus(t){
+ if(mode==='text') document.getElementById('textTop').textContent=t;
+ else {const d=document.createElement('div'); d.className='msg sys'; d.textContent=t; document.getElementById('vChatOverlay').appendChild(d);}
 }
-function sendMsg(){
- const input = mode==='text'? document.getElementById('textInput') : document.getElementById('videoInput');
- if(!input.value.trim()) return;
- addMsg(input.value,'me');
- socket.emit('chat-message',input.value);
- input.value='';
+function box(){return mode==='text'?document.getElementById('textMsgs'):document.getElementById('vChatOverlay');}
+function addMsg(t,cls){
+ const b=box(); const div=document.createElement('div'); div.className='msg '+cls; div.textContent=t; b.appendChild(div); b.scrollTop=b.scrollHeight;
 }
-document.getElementById('textInput').addEventListener('keypress',e=>{if(e.key==='Enter')sendMsg();});
-document.getElementById('videoInput').addEventListener('keypress',e=>{if(e.key==='Enter')sendMsg();});
+function send(){
+ const inp=mode==='text'?document.getElementById('tInput'):document.getElementById('vInput');
+ if(!inp.value.trim()) return;
+ addMsg(inp.value,'me'); socket.emit('chat-message',inp.value); inp.value='';
+}
+function doNext(){
+ if(peer){peer.close();peer=null;} if(remoteVideo) remoteVideo.srcObject=null;
+ socket.emit('next-stranger',{mode}); updateStatus('Searching...'); box().innerHTML=''; socket.emit('find-stranger',{mode});
+}
+document.getElementById('tInput').addEventListener('keydown',e=>{if(e.key==='Enter')send();});
+document.getElementById('vInput').addEventListener('keydown',e=>{if(e.key==='Enter')send();});
 
-socket.on('waiting',()=>{if(mode==='text') textStatus.textContent='Waiting for stranger...'; else addMsg('Waiting for stranger...','system');});
-socket.on('matched',async (data)=>{
- if(mode==='text'){textStatus.textContent='Connected! Say Hi 👋'; addMsg('You are now connected to a stranger!','system');}
- else{addMsg('Connected! Say Hi 👋','system');}
- if(mode==='video'){
-  await createPeer();
-  if(data.initiator){
-   const offer=await peer.createOffer(); await peer.setLocalDescription(offer); socket.emit('webrtc-offer',offer);
-  }
- }
+socket.on('waiting',()=>updateStatus('Waiting for stranger...'));
+socket.on('matched',async d=>{
+ updateStatus('Connected! Say Hi 👋');
+ addMsg('You are now connected to a stranger!','sys');
+ if(mode==='video'){ await makePeer(); if(d.initiator){const o=await peer.createOffer(); await peer.setLocalDescription(o); socket.emit('webrtc-offer',o);}}
 });
 socket.on('chat-message',m=>addMsg(m,'them'));
-socket.on('partner-left',()=>{
- if(mode==='text'){textStatus.textContent='Stranger disconnected. Click Next.'; addMsg('Stranger disconnected','system');}
- else{addMsg('Stranger disconnected. Click Next.','system');}
- if(peer){peer.close();peer=null;} if(remoteVideo) remoteVideo.srcObject=null;
-});
+socket.on('partner-left',()=>{updateStatus('Stranger disconnected. Click Next.'); addMsg('Stranger disconnected','sys'); if(peer){peer.close();peer=null;} remoteVideo.srcObject=null;});
 
-// WEBRTC - BLACK SCREEN FIX
-async function createPeer(){
+async function makePeer(){
  if(peer) peer.close();
- peer=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'},{urls:'stun:stun2.l.google.com:19302'}]});
- if(localStream) localStream.getTracks().forEach(t=>peer.addTrack(t,localStream));
- peer.ontrack=e=>{
-  console.log('Remote video received!');
-  remoteVideo.srcObject=e.streams[0];
- };
+ peer=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'}]});
+ if(localStream) localStream.getTracks().forEach(tr=>peer.addTrack(tr,localStream));
+ peer.ontrack=e=>{ console.log('GOT REMOTE VIDEO'); remoteVideo.srcObject=e.streams[0]; };
  peer.onicecandidate=e=>{ if(e.candidate) socket.emit('ice-candidate',e.candidate); };
 }
-socket.on('webrtc-offer',async o=>{await createPeer(); await peer.setRemoteDescription(o); const a=await peer.createAnswer(); await peer.setLocalDescription(a); socket.emit('webrtc-answer',a);});
+socket.on('webrtc-offer',async o=>{await makePeer(); await peer.setRemoteDescription(o); const a=await peer.createAnswer(); await peer.setLocalDescription(a); socket.emit('webrtc-answer',a);});
 socket.on('webrtc-answer',async a=>{if(peer) await peer.setRemoteDescription(a);});
-socket.on('ice-candidate',async c=>{if(peer) try{await peer.addIceCandidate(c);}catch(e){}});
-function toggleMute(){if(!localStream)return;isMuted=!isMuted;localStream.getAudioTracks().forEach(t=>t.enabled=!isMuted);document.getElementById('muteBtn').textContent=isMuted?'Unmute':'Mute';}
-function toggleCam(){if(!localStream)return;isCamOff=!isCamOff;localStream.getVideoTracks().forEach(t=>t.enabled=!isCamOff);document.getElementById('camBtn').textContent=isCamOff?'Cam On':'Cam Off';}
+socket.on('ice-candidate',async c=>{if(peer) try{await peer.addIceCandidate(c);}catch(e){}}});
 
-// Fake online count
-setInterval(()=>{document.getElementById('onlineCount').textContent=(1247+Math.floor(Math.random()*20-10)).toLocaleString();},3000);
+function doMute(){ if(!localStream) return; muted=!muted; localStream.getAudioTracks().forEach(t=>t.enabled=!muted); document.getElementById('bMute').textContent=muted?'Unmute':'Mute';}
+function doCam(){ if(!localStream) return; camOff=!camOff; localStream.getVideoTracks().forEach(t=>t.enabled=!camOff); document.getElementById('bCam').textContent=camOff?'Cam On':'Cam Off';}
 </script>
 </body>
 </html>
