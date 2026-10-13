@@ -3,13 +3,24 @@ const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 app.use(cors());
-app.use(express.static(path.join(__dirname)));
 
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
+
+// index.html कहाँ है ये ढूंढो
+let publicPath = __dirname;
+if (fs.existsSync(path.join(__dirname, 'public', 'index.html'))) {
+  publicPath = path.join(__dirname, 'public');
+} else if (fs.existsSync(path.join(__dirname, 'frontend', 'index.html'))) {
+  publicPath = path.join(__dirname, 'frontend');
+}
+
+console.log('Serving from:', publicPath);
+app.use(express.static(publicPath));
 
 let waitingQueue = [];
 
@@ -54,6 +65,9 @@ io.on('connection', (socket) => {
   });
 });
 
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
-const PORT = process.env.PORT || 3000;
+app.get('*', (req, res) => {
+  res.sendFile(path.join(publicPath, 'index.html'));
+});
+
+const PORT = process.env.PORT || 10000;
 server.listen(PORT, () => console.log('Server running on', PORT));
