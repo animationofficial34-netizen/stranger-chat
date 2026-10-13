@@ -1,81 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Stranger Chat - Free Video Chat with Strangers</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>StrangerChat - Random Video Chat</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800;900&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif}
-body{background:#111;color:#fff;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-.header{height:50px;background:#222;display:flex;align-items:center;justify-content:space-between;padding:0 15px;border-bottom:1px solid #333}
-.logo{font-weight:900;font-size:20px}.logo b{color:#6cb6ff}
-#welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#111;text-align:center;padding:20px}
-#welcome h1{font-size:36px;margin-bottom:8px}
-#welcome p{color:#888;margin-bottom:30px}
-.btns{display:flex;gap:12px}
-.main-btn{padding:16px 28px;border-radius:10px;border:2px solid #444;background:#222;color:#fff;font-weight:800;font-size:15px;cursor:pointer}
-.main-btn.video{background:#1c3350;border-color:#4da6ff;color:#4da6ff}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',system-ui}
+body{background:#0a0a0a;color:#fff;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.top{height:50px;background:#161616;border-bottom:1px solid #232323;display:flex;align-items:center;justify-content:space-between;padding:0 14px}
+.logo{font-weight:900;font-size:19px;letter-spacing:.5px}.logo i{color:#4da6ff;font-style:normal}
+.live{font-size:11px;color:#0f8;font-weight:800;background:#0f2a1e;padding:4px 8px;border-radius:20px}
 
-/* TEXT CHAT - SEPARATE */
-#textMode{display:none;flex:1;flex-direction:column;background:#111}
-#textTop{background:#222;padding:10px;text-align:center;color:#0f8;font-size:13px;font-weight:700}
-#textMsgs{flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:8px}
-#textBottom{display:flex;gap:6px;padding:10px;background:#222;border-top:1px solid #333}
-#textBottom input{flex:1;padding:12px 15px;border-radius:20px;border:none;background:#333;color:#fff;outline:none}
+#welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;background:radial-gradient(800px 400px at 50% 0%,#1a2e55 0%,#0a0a0a 60%)}
+#welcome h1{font-size:32px;font-weight:900;line-height:1.15}
+#welcome p{color:#888;margin:10px 0 26px;font-size:13px}
+.choice{display:flex;gap:12px;width:100%;max-width:360px}
+.c{flex:1;background:#171717;border:1px solid #2a2a2a;border-radius:16px;padding:18px 10px;cursor:pointer;transition:.15s}
+.c:active{transform:scale(.97)}
+.c.video{background:#101f3a;border-color:#2a5fb8;box-shadow:0 0 30px rgba(77,166,255,.25)}
+.c.ic{font-size:28px}.c h3{font-size:15px;margin:8px 0 2px}.c span{font-size:11px;color:#777}
 
-/* VIDEO CHAT - SEPARATE FULL SCREEN */
-#videoMode{display:none;flex:1;position:relative;background:#000;flex-direction:column}
-#remoteVideo{width:100%;height:100%;object-fit:cover;background:#000}
-#localVideo{position:absolute;right:12px;bottom:130px;width:120px;height:90px;border-radius:10px;border:2px solid #fff;object-fit:cover;background:#222;z-index:5}
-#vChatOverlay{position:absolute;left:0;right:0;top:0;bottom:120px;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:6px;pointer-events:none}
-#vBottomBar{position:absolute;bottom:0;left:0;right:0;background:#111;border-top:1px solid #333;padding:8px;z-index:10}
-#vMsgRow{display:flex;gap:6px;margin-bottom:8px}
-#vMsgRow input{flex:1;padding:10px 14px;border-radius:20px;border:none;background:#2a2a2a;color:#fff;outline:none}
-#vBtnRow{display:flex;gap:8px;justify-content:center}
-.vbtn{padding:10px 18px;border-radius:20px;border:none;font-weight:800;cursor:pointer;font-size:13px;min-width:65px}
-.vbtn-mute{background:#333;color:#fff}.vbtn-cam{background:#333;color:#fff}.vbtn-next{background:#ff3b30;color:#fff;min-width:80px}.vbtn-stop{background:#444;color:#fff}
+#textMode,#videoMode{display:none;flex:1;flex-direction:column;height:100%}
 
-.msg{padding:8px 12px;border-radius:16px;max-width:75%;font-size:13px}
-.me{background:#0084ff;align-self:flex-end}.them{background:#2e2e2e;align-self:flex-start}.sys{align-self:center;background:#222;color:#777;font-size:11px}
-.sbtn{padding:10px 16px;border-radius:20px;border:none;font-weight:700;cursor:pointer;font-size:13px}
-.sbtn-stop{background:#333;color:#fff}.sbtn-next{background:#ff3b30;color:#fff}.sbtn-send{background:#0084ff;color:#fff}
+/* TEXT MODE */
+.t-status{background:#161616;padding:9px;text-align:center;font-size:12px;font-weight:700;color:#0f8;border-bottom:1px solid #232323}
+.t-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:#0a0a0a}
+.t-bar{padding:10px;background:#161616;border-top:1px solid #232323;display:flex;gap:8px;align-items:center}
+.t-bar input{flex:1;padding:12px 16px;border-radius:24px;border:none;background:#232323;color:#fff;outline:none;font-size:14px}
+
+/* VIDEO MODE - CLEAN FULL SCREEN */
+#videoWrap{flex:1;position:relative;background:#000;overflow:hidden}
+#remoteVideo{width:100%;height:100%;object-fit:cover;background:#000;display:block}
+#localVideo{position:absolute;right:10px;bottom:110px;width:110px;height:82px;border-radius:12px;border:2px solid #fff;object-fit:cover;z-index:5;background:#111;box-shadow:0 4px 20px rgba(0,0,0,.6)}
+#vMsgs{position:absolute;left:0;right:0;top:0;bottom:105px;padding:10px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;z-index:2}
+#vBar{position:absolute;left:0;right:0;bottom:0;background:#161616;border-top:1px solid #232323;padding:8px;z-index:10}
+.v-row1{display:flex;gap:8px;margin-bottom:8px}
+.v-row1 input{flex:1;padding:11px 15px;border-radius:24px;border:none;background:#232323;color:#fff;outline:none}
+.v-row2{display:flex;gap:7px;justify-content:center;align-items:center}
+
+.btn{padding:10px 16px;border-radius:22px;border:none;font-weight:800;cursor:pointer;font-size:12px;white-space:nowrap}
+.btn-stop{background:#2a2a2a;color:#fff}.btn-next{background:#ff2e2e;color:#fff;min-width:72px}.btn-send{background:#0a84ff;color:#fff}
+.vb{padding:10px 14px;border-radius:20px;border:none;font-weight:800;cursor:pointer;font-size:11px;background:#2a2a2a;color:#fff;min-width:56px}
+.vb.next{background:#ff2e2e;min-width:68px}
+
+.msg{padding:8px 12px;border-radius:18px;max-width:76%;font-size:13px;line-height:1.35;word-break:break-word}
+.me{background:#0a84ff;align-self:flex-end}.str{background:#232323;align-self:flex-start}.sys{align-self:center;background:#1a1a1a;color:#777;font-size:11px;border:1px solid #222;padding:5px 10px;border-radius:12px}
+
+@media(max-width:600px){
+ #localVideo{width:92px;height:68px;right:8px;bottom:106px}
+.choice{flex-direction:column}
+}
 </style>
 </head>
 <body>
-<div class="header"><div class="logo">STRANGER<b>CHAT</b></div><div style="color:#0f8;font-size:12px">● LIVE</div></div>
+<div class="top"><div class="logo">STRANGER<i>CHAT</i></div><div class="live">● <span id="cnt">1,284</span> ONLINE</div></div>
 
 <div id="welcome">
-<h1>Talk to Strangers!</h1>
-<p>Omegle Alternative - 100% Free</p>
-<div class="btns">
-<button class="main-btn" onclick="openMode('text')">💬 Text Chat</button>
-<button class="main-btn video" onclick="openMode('video')">🎥 Video Chat</button>
+<h1>Talk to<br>Strangers!</h1>
+<p>Free • No Login • Instant Connect</p>
+<div class="choice">
+<div class="c" onclick="go('text')"><div class="ic">💬</div><h3>Text Chat</h3><span>Only Text</span></div>
+<div class="c video" onclick="go('video')"><div class="ic">🎥</div><h3>Video Chat</h3><span>With Camera</span></div>
 </div>
 </div>
 
-<!-- TEXT ONLY -->
 <div id="textMode">
-<div id="textTop">Connecting...</div>
-<div id="textMsgs"></div>
-<div id="textBottom">
-<button class="sbtn sbtn-stop" onclick="location.reload()">Stop</button>
-<button class="sbtn sbtn-next" onclick="doNext()">Next</button>
+<div class="t-status" id="tStatus">Searching...</div>
+<div class="t-msgs" id="tMsgs"></div>
+<div class="t-bar">
+<button class="btn btn-stop" onclick="location.reload()">Stop</button>
+<button class="btn btn-next" onclick="nextStranger()">Next</button>
 <input id="tInput" placeholder="Type a message...">
-<button class="sbtn sbtn-send" onclick="send()">Send</button>
+<button class="btn btn-send" onclick="send()">Send</button>
 </div>
 </div>
 
-<!-- VIDEO ONLY -->
 <div id="videoMode">
+<div id="videoWrap">
 <video id="remoteVideo" autoplay playsinline></video>
 <video id="localVideo" autoplay playsinline muted></video>
-<div id="vChatOverlay"></div>
-<div id="vBottomBar">
-<div id="vMsgRow"><input id="vInput" placeholder="Type a message..."><button class="sbtn sbtn-send" onclick="send()">Send</button></div>
-<div id="vBtnRow">
-<button class="vbtn vbtn-mute" id="bMute" onclick="doMute()">Mute</button>
-<button class="vbtn vbtn-cam" id="bCam" onclick="doCam()">Cam Off</button>
-<button class="vbtn vbtn-next" onclick="doNext()">Next</button>
-<button class="vbtn vbtn-stop" onclick="location.reload()">Stop</button>
+<div id="vMsgs"></div>
+<div id="vBar">
+<div class="v-row1"><input id="vInput" placeholder="Type a message..."><button class="btn btn-send" onclick="send()">Send</button></div>
+<div class="v-row2">
+<button class="vb" id="muteBtn" onclick="toggleMute()">Mute</button>
+<button class="vb" id="camBtn" onclick="toggleCam()">Cam Off</button>
+<button class="vb" onclick="flipCam()">Flip</button>
+<button class="vb next" onclick="nextStranger()">Next</button>
+<button class="vb" onclick="location.reload()">Stop</button>
+</div>
 </div>
 </div>
 </div>
@@ -83,65 +97,66 @@ body{background:#111;color:#fff;height:100vh;display:flex;flex-direction:column;
 <script src="/socket.io/socket.io.js"></script>
 <script>
 const socket=io();
-let mode=null, localStream=null, peer=null, muted=false, camOff=false;
-const remoteVideo=document.getElementById('remoteVideo'), localVideo=document.getElementById('localVideo');
+let mode=null, stream=null, peer=null, muted=false, camOff=false, facing='user';
+const remoteV=document.getElementById('remoteVideo'), localV=document.getElementById('localVideo');
 
-function openMode(m){
+function go(m){
  mode=m;
  document.getElementById('welcome').style.display='none';
  if(m==='text'){document.getElementById('textMode').style.display='flex';}
  else{document.getElementById('videoMode').style.display='flex'; startCam();}
  socket.emit('find-stranger',{mode});
- updateStatus('Searching...');
+ setStatus('Searching for stranger...');
 }
 async function startCam(){
- try{
-  localStream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});
-  localVideo.srcObject=localStream;
- }catch(e){alert('Camera Allow करो! Chrome में खोलो'); location.reload();}
+ try{ stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:facing},audio:true}); localV.srcObject=stream; }
+ catch(e){ alert('Please allow Camera/Mic in Chrome'); location.reload(); }
 }
-function updateStatus(t){
- if(mode==='text') document.getElementById('textTop').textContent=t;
- else {const d=document.createElement('div'); d.className='msg sys'; d.textContent=t; document.getElementById('vChatOverlay').appendChild(d);}
-}
-function box(){return mode==='text'?document.getElementById('textMsgs'):document.getElementById('vChatOverlay');}
-function addMsg(t,cls){
- const b=box(); const div=document.createElement('div'); div.className='msg '+cls; div.textContent=t; b.appendChild(div); b.scrollTop=b.scrollHeight;
+function setStatus(t){ if(mode==='text') document.getElementById('tStatus').textContent=t; else add('sys',t); }
+function getBox(){return mode==='text'?document.getElementById('tMsgs'):document.getElementById('vMsgs');}
+function add(type,text){
+ const b=getBox(); const d=document.createElement('div');
+ d.className='msg '+(type==='me'?'me':type==='sys'?'sys':'str'); d.textContent=text;
+ b.appendChild(d); b.scrollTop=b.scrollHeight;
 }
 function send(){
  const inp=mode==='text'?document.getElementById('tInput'):document.getElementById('vInput');
  if(!inp.value.trim()) return;
- addMsg(inp.value,'me'); socket.emit('chat-message',inp.value); inp.value='';
+ add('me',inp.value); socket.emit('chat-message',inp.value); inp.value='';
 }
-function doNext(){
- if(peer){peer.close();peer=null;} if(remoteVideo) remoteVideo.srcObject=null;
- socket.emit('next-stranger',{mode}); updateStatus('Searching...'); box().innerHTML=''; socket.emit('find-stranger',{mode});
+function nextStranger(){
+ if(peer){peer.close();peer=null;} remoteV.srcObject=null;
+ getBox().innerHTML=''; setStatus('Searching...');
+ socket.emit('next-stranger',{mode}); socket.emit('find-stranger',{mode});
 }
-document.getElementById('tInput').addEventListener('keydown',e=>{if(e.key==='Enter')send();});
-document.getElementById('vInput').addEventListener('keydown',e=>{if(e.key==='Enter')send();});
+document.getElementById('tInput').addEventListener('keydown',e=>{if(e.key==='Enter')send()});
+document.getElementById('vInput').addEventListener('keydown',e=>{if(e.key==='Enter')send()});
 
-socket.on('waiting',()=>updateStatus('Waiting for stranger...'));
+socket.on('waiting',()=>setStatus('Waiting for stranger...'));
 socket.on('matched',async d=>{
- updateStatus('Connected! Say Hi 👋');
- addMsg('You are now connected to a stranger!','sys');
- if(mode==='video'){ await makePeer(); if(d.initiator){const o=await peer.createOffer(); await peer.setLocalDescription(o); socket.emit('webrtc-offer',o);}}
+ setStatus('Connected! Say Hi 👋'); add('sys','You are connected to a stranger!');
+ if(mode==='video'){ await makePeer(); if(d.initiator){const off=await peer.createOffer(); await peer.setLocalDescription(off); socket.emit('webrtc-offer',off);} }
 });
-socket.on('chat-message',m=>addMsg(m,'them'));
-socket.on('partner-left',()=>{updateStatus('Stranger disconnected. Click Next.'); addMsg('Stranger disconnected','sys'); if(peer){peer.close();peer=null;} remoteVideo.srcObject=null;});
+socket.on('chat-message',m=>add('str',m));
+socket.on('partner-left',()=>{ setStatus('Stranger disconnected. Press Next.'); add('sys','Stranger disconnected'); if(peer){peer.close();peer=null;} remoteV.srcObject=null; });
 
 async function makePeer(){
  if(peer) peer.close();
- peer=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'}]});
- if(localStream) localStream.getTracks().forEach(tr=>peer.addTrack(tr,localStream));
- peer.ontrack=e=>{ console.log('GOT REMOTE VIDEO'); remoteVideo.srcObject=e.streams[0]; };
+ peer=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'},{urls:'stun:stun2.l.google.com:19302'}]});
+ if(stream) stream.getTracks().forEach(t=>peer.addTrack(t,stream));
+ peer.ontrack=e=>{ remoteV.srcObject=e.streams[0]; };
  peer.onicecandidate=e=>{ if(e.candidate) socket.emit('ice-candidate',e.candidate); };
 }
 socket.on('webrtc-offer',async o=>{await makePeer(); await peer.setRemoteDescription(o); const a=await peer.createAnswer(); await peer.setLocalDescription(a); socket.emit('webrtc-answer',a);});
 socket.on('webrtc-answer',async a=>{if(peer) await peer.setRemoteDescription(a);});
-socket.on('ice-candidate',async c=>{if(peer) try{await peer.addIceCandidate(c);}catch(e){}}});
+socket.on('ice-candidate',async c=>{if(peer) try{await peer.addIceCandidate(c);}catch(e){}});
 
-function doMute(){ if(!localStream) return; muted=!muted; localStream.getAudioTracks().forEach(t=>t.enabled=!muted); document.getElementById('bMute').textContent=muted?'Unmute':'Mute';}
-function doCam(){ if(!localStream) return; camOff=!camOff; localStream.getVideoTracks().forEach(t=>t.enabled=!camOff); document.getElementById('bCam').textContent=camOff?'Cam On':'Cam Off';}
+function toggleMute(){if(!stream)return;muted=!muted;stream.getAudioTracks().forEach(t=>t.enabled=!muted);document.getElementById('muteBtn').textContent=muted?'Unmute':'Mute';}
+function toggleCam(){if(!stream)return;camOff=!camOff;stream.getVideoTracks().forEach(t=>t.enabled=!camOff);document.getElementById('camBtn').textContent=camOff?'Cam On':'Cam Off';}
+async function flipCam(){facing=facing==='user'?'environment':'user'; if(stream) stream.getTracks().forEach(t=>t.stop()); await startCam(); if(peer){ const vTrack=stream.getVideoTracks()[0]; const sender=peer.getSenders().find(s=>s.track&&s.track.kind==='video'); if(sender) sender.replaceTrack(vTrack); }}
+
+// fake online
+setInterval(()=>{document.getElementById('cnt').textContent=(1280+Math.floor(Math.random()*40)).toString()},2500);
 </script>
 </body>
 </html>
